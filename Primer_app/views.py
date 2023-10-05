@@ -99,3 +99,21 @@ def integrantesFormulario(request):
         forminte = IntegrantesFormulario() #formulario vacio
 
     return render(request, "Primer_app/integrantesFormulario.html", {"forminte":forminte})
+
+
+#-----------------------------------------------------busquedaComision------------------------
+def busquedaComision(request):
+    return render(request, "Primer_app/busquedaComision.html")
+
+#------------------------------------------------------buscar----------------------------
+def buscar(request):
+
+    if request.GET['Comision']:
+
+        comision = request.GET['Comision']
+        cursos = Curso.objects.filter(comision__icontains = comision)
+        
+        return render(request, "Primer_app/resultadosBusqueda.html", {"cursos":cursos, 'Comision':comision})
+    else:
+        rta = "usted no cargo datos"
+    return HttpResponse(rta)
