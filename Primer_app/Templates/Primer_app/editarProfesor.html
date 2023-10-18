@@ -12,13 +12,13 @@
 
     <h1> Formulario-editar Profesor</h1>
     
-    <!--anotar en el cuaderno esto!!!-->
+  
 
     <form action="{% url 'primerApp:EditarProfesor' profesorNombre  %}", method ='post'>{% csrf_token %} 
  
 
 
-         <!-- Acá está la magia de Django-->
+         <!-- Formulario -->
          
          {{ formProfe.as_p }}
 

@@ -131,7 +131,7 @@ def eliminarProfesor(request,profesorNombre):
 
 #-------------------------------------------------------Editarprofesor--------------------------------
  
-def editarProfesor(request, profesorNombre):        #ARREGLAR EL EDITAR!
+def editarProfesor(request, profesorNombre):      
     profesor = Profe.objects.get(nombre = profesorNombre)
     if request.method == "POST":
         formProfe = ProfeFormulario(request.POST)
