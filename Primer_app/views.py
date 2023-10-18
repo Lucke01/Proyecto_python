@@ -1,30 +1,21 @@
 from django.shortcuts import render, HttpResponse
 from django.http import HttpResponse
 from Primer_app.models import Curso,Profe,Integrantes
+from Primer_app.forms import CursoFormulario,ProfeFormulario,IntegrantesFormulario
 
 
+
+
+#-----------------------------------------------------inicio.html-------------------------------------
 def inicio(request):
     return render(request, 'Primer_app/inicio.html')
 
+#---------------------------------------------------cursos.html//Formulario-------------------------------------
+
 def cursos(request):
-    return render(request, 'Primer_app/Cursos.html')
-
-def profes(request):
-
-    return render(request, 'Primer_app/profes.html')
-
-def integrantes(request):
-    return render(request, 'Primer_app/integrantes.html')
-
-def entregables(request):
-    return render(request, 'Primer_app/entregables.html')
-
-#---------------------------------------------------cursoFormulario-------------------------------------
-from Primer_app.forms import CursoFormulario
-def cursoFormulario(request):
     
     #creando formulario con DJANGO
-    if request.method == 'POST':
+    if request.method == 'POST':                    
 
         miFormulario = CursoFormulario(request.POST) #hasta aca llega la info del html
 
@@ -44,11 +35,10 @@ def cursoFormulario(request):
 
         miFormulario= CursoFormulario() #form vacio
 
-    return render(request, "Primer_app/cursoFormulario.html", {"miFormulario":miFormulario})
+    return render(request, "Primer_app/cursos.html", {"miFormulario":miFormulario})
 
-#------------------------------profeFormulario-------------------------------------
-from Primer_app.forms import ProfeFormulario
-def profeFormulario(request):
+#------------------------------profes.html//Formulario-------------------------------------
+def profes(request):
 
     if request.method == 'POST':
 
@@ -70,14 +60,12 @@ def profeFormulario(request):
 
         formprofe = ProfeFormulario()#formulario vacio
 
-    return render(request, "Primer_app/profeFormulario.html", {"formprofe":formprofe})
+    return render(request, "Primer_app/profes.html", {"formprofe":formprofe})
 
 
 
-#---------------------------------------------IntegrantesFormulario-------------------------------------
-from Primer_app.forms import IntegrantesFormulario
-
-def integrantesFormulario(request):
+#---------------------------------------------Integrantes.html//Formulario-------------------------------------
+def integrantes(request):
     if request.method == 'POST':
 
         forminte = IntegrantesFormulario(request.POST) #hasta aca llega la info del html
@@ -98,7 +86,7 @@ def integrantesFormulario(request):
 
         forminte = IntegrantesFormulario() #formulario vacio
 
-    return render(request, "Primer_app/integrantesFormulario.html", {"forminte":forminte})
+    return render(request, "Primer_app/integrantes.html", {"forminte":forminte})
 
 
 #-----------------------------------------------------busquedaComision------------------------
@@ -113,7 +101,54 @@ def buscar(request):
         comision = request.GET['Comision']
         cursos = Curso.objects.filter(comision__icontains = comision)
         
-        return render(request, "Primer_app/resultadosBusqueda.html", {"cursos":cursos, 'Comision':comision})
+        return render(request, "Primer_app/inicio.html", {"cursos":cursos, 'Comision':comision})
     else:
         rta = "usted no cargo datos"
-    return HttpResponse(rta)
+    #return HttpResponse(rta)
+    return render(request, 'Primer_app/inicio.html',{"rta":rta})
+
+#------------------------------------------------entregables.html----------------------------
+def entregables(request):
+    return render(request, 'Primer_app/entregables.html')
+
+
+#---------------------------------------------leerProfesores.html----------------
+def leerProfesores(request):
+    profesores = Profe.objects.all()
+    contexto = {"profesores":profesores}
+    return render(request, "Primer_app/leerProfesores.html",contexto)
+
+
+#----------------------------------------------------Eliminarprofesor-------------------------------
+def eliminarProfesor(request,profesorNombre):
+    profesor = Profe.objects.get(nombre = profesorNombre)
+    profesor.delete()
+        
+    #vuelvo al menu
+    profesores = Profe.objects.all()
+    contexto = {"profesores":profesores}
+    return render(request, "Primer_app/leerProfesores.html",contexto)   
+
+#-------------------------------------------------------Editarprofesor--------------------------------
+ 
+def editarProfesor(request, profesorNombre):        #ARREGLAR EL EDITAR!
+    profesor = Profe.objects.get(nombre = profesorNombre)
+    if request.method == "POST":
+        formProfe = ProfeFormulario(request.POST)
+        print(formProfe)
+
+        if formProfe.is_valid():
+            informacion = formProfe.cleaned_data
+
+            profesor.nombre = informacion['nombre']
+            profesor.apellido = informacion['apellido']
+            profesor.email = informacion['email']
+            profesor.profesion = informacion['profesion']
+            profesor.save()
+
+            return render(request, 'Primer_app/Padre.html',{"formProfe":formProfe})
+    
+    else:
+        formProfe = ProfeFormulario(initial={'nombre':profesor.nombre,'apellido':profesor.apellido,'email':profesor.email,'profesion':profesor.profesion})
+       
+    return render(request, 'Primer_app/editarProfesor.html',{"formProfe":formProfe,"profesorNombre":profesorNombre})

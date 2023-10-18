@@ -1,12 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>cursos</title>
-</head>
-<body style="background-color: gold;">
+{% extends "Primer_app/Padre.html" %}
+
+{% load static %}
+
+{% block contenidoQueCambia %}
+    <h1> Ingrese su curso</h1>
+    {% if miFormulario.error %}
+
+    <p style="color: red;"> Están mal los datos, revisar</p>
+
+    {% endif %}
+
+
     
-</body>
-</html>
-   
+    {% for p in profesores %}
+
+        <li>{{p}}</li>
+
+    <form action="{% url 'primerApp:Cursos' %}", method ='POST'>{% csrf_token %} <!-- creo que aca esta el error xd-->
+     
+
+
+        <!-- Acá está la magia de Django-->
+    
+
+            {{ miFormulario.as_p }}
+    
+    
+        <input type="submit", value="Enviar">
+
+    </form>
+
+    {% endfor %}
+{% endblock %}

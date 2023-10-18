@@ -17,6 +17,9 @@ class Profe (models.Model):
     email = models.EmailField()
     profesion = models.CharField(max_length=30)
 
+    def __str__(self):
+        return f'Nombre: {self.nombre} - Apellido: {self.apellido} - E-mail: {self.email} - profesion: {self.profesion}'
+
 
 class Entregable (models.Model):
     nombre =models.CharField(max_length=30)

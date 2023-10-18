@@ -1,14 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>profes</title>
-</head>
-<body style="background-color: pink;">
-    
+{% extends "Primer_app/Padre.html" %}
+
+{% load static %}
+
+{% block contenidoQueCambia %}
+
+    {% if formprofe.error %}
+
+    <p style="color: red;"> Están mal los datos, revisar</p>
+
+    {% endif %}
+
+    <h1> Formulario-agregar Profesor</h1>
+
+    <form action="{% url 'primerApp:Profes' %}", method ='POST'>{% csrf_token %} <!-- creo que aca esta el error xd-->
+ 
 
 
-    
-</body>
-</html>
+         <!-- Acá está la magia de Django-->
+
+
+            {{ formprofe.as_p }}
+
+
+        <input type="submit", value="Enviar">
+
+    </form>
+
+
+{% endblock %}

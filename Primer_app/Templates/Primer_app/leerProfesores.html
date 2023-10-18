@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leer Profesores</title>
+</head>
+<body>
+
+    {% for p in profesores %}
+
+        <li>{{p}}</li>
+
+        <button>
+            <a href= "{% url 'primerApp:EliminarProfesor' p.nombre %}">  Eliminar</a>
+            <a href= "{% url 'primerApp:EditarProfesor' p.nombre %}">  Editar</a>
+        </button>
+        
+    
+    
+    {% endfor %}
+
+    
+    
+    
+    <a href="{% url 'primerApp:Profes'%}">agregar otro profesor: </a>
+
+
+</body>
+</html>

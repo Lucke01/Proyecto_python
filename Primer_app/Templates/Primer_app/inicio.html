@@ -5,10 +5,33 @@
 {% block contenidoQueCambia %}
 
     <!-- aca estara el contenido que cambia y lo esta asociado a esta vista -->
-    <h1> Este es el titulo de inicio que cambio</h1>
-    <p> Se ha heredado la plantilla padre</p>
+    <h1>inicio.html</h1>
 
-    <h3> En el hijo, inicio.html, casi no hay nada  </h3>
+
+        <!-- formulario de busqueda-->
+        <form action=" /Primer_app/buscar/" method="GET">
+
+            <input type = "number", name = "Comision", id="Comision">
+
+            <input type = "submit",value = "Buscar">
+
+        </form>
+
+
+        <p> estoy buscando la comision: {{Comision}} </p>
+
+    {% if cursos %}
+
+        <ul>
+        {% for curso in cursos %}  
+            <li>{{curso.nombre}} </li>
+            <li>{{curso.comision}} </li> 
+        
+        {% endfor %}
+        </ul>   
+    
+{% endif %}
+    
 
 
 
