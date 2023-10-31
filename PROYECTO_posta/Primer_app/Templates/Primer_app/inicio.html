@@ -1,0 +1,39 @@
+{% extends "Primer_app/Padre.html" %}
+
+{% load static %}
+
+{% block contenidoQueCambia %}
+
+    <!-- aca estara el contenido que cambia y lo esta asociado a esta vista -->
+    <h1>inicio.html</h1>
+
+
+        <!-- formulario de busqueda-->
+        <form action=" /Primer_app/buscar/" method="GET">
+
+            <input type = "number", name = "Comision", id="Comision">
+
+            <input type = "submit",value = "Buscar">
+
+        </form>
+
+
+        <p> estoy buscando la comision: {{Comision}} </p>
+
+    {% if cursos %}
+
+        <ul>
+        {% for curso in cursos %}  
+            <li>{{curso.nombre}} </li>
+            <li>{{curso.comision}} </li> 
+        
+        {% endfor %}
+        </ul>   
+    
+{% endif %}
+    
+
+
+
+
+{% endblock %}

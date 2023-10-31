@@ -1,0 +1,25 @@
+{% extends "Primer_app/Padre.html" %}
+
+{% load static %}
+
+{% block contenidoQueCambia %}
+    
+    {% for i in integrante %}
+
+        <li>{{i}}</li>
+
+        <button>
+            <a href= "{% url 'primerApp:EliminarIntegrante' i.nombre %}">  Eliminar</a>
+            <a href= "{% url 'primerApp:EditarIntegrante' i.nombre %}">  Editar</a>
+        </button>
+        
+    
+    
+    {% endfor %}
+
+    
+    
+    
+    <a href="{% url 'primerApp:Integrantes'%}">agregar otro Integrante: </a>
+
+{% endblock %}

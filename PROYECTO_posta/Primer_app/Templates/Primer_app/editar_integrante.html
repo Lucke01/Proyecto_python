@@ -1,0 +1,32 @@
+{% extends "Primer_app/Padre.html" %}
+
+{% load static %}
+
+{% block contenidoQueCambia %}
+
+    {% if form_Inte.error %}
+
+    <p style="color: red;"> Están mal los datos, revisar</p>
+
+    {% endif %}
+
+
+    <h1> Formulario-editar Integrante</h1>
+
+
+    <form action="{% url 'primerApp:EditarIntegrante' nombreIntegrante %}", method ='POST'>{% csrf_token %} <!-- creo que aca esta el error xd-->
+         
+
+
+        <!-- Acá está la magia de Django-->
+        
+
+            {{  form_Inte.as_p }}
+        
+        
+        <input type="submit", value="Enviar">
+
+    </form>
+
+    
+{% endblock %}
