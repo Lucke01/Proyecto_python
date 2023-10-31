@@ -11,6 +11,9 @@ class Integrantes(models.Model):
     nombre = models.CharField(max_length=30)
     apellido = models.CharField(max_length=30)
 
+    def __str__(self):
+        return f'Nombre: {self.nombre} - Apellido: {self.apellido}'
+
 class Profe (models.Model):
     nombre = models.CharField(max_length=30)
     apellido = models.CharField(max_length=30)

@@ -1,6 +1,6 @@
 from django.urls import path
 from Primer_app import views
-from Primer_app.views import eliminarProfesor
+
 
 
 urlpatterns = [
@@ -14,8 +14,18 @@ urlpatterns = [
     #path('integrantesFormulario',views.integrantesFormulario, name = "IntegrantesFormulario"),
     path('busquedaComision',views.busquedaComision, name ="BusquedaComision"),
     path('buscar/',views.buscar),
+
+    #--------------------------Crud de Model Profesor
     path('leerProfesores',views.leerProfesores, name = "LeerProfesores"),
     path('eliminarProfesor/<profesorNombre>/',views.eliminarProfesor, name = "EliminarProfesor"),
     path('editarProfesor/<profesorNombre>/',views.editarProfesor, name = "EditarProfesor"),
 
+    #---------------------Crud model Integrantes
+    path('leer_integrantes',views.leer_integrantes, name = "LeerIntegrantes"),
+    path('eliminar_integrante/<nombreIntegrante>/',views.eliminar_integrantes, name = "EliminarIntegrante"),
+    path('editar_integrante/<nombreIntegrante>/',views.editar_integrantes,name='EditarIntegrante')
+  
+    #------------------ Crud model Cursos
 ]
+
+

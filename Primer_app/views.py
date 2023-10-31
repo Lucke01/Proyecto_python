@@ -112,6 +112,9 @@ def entregables(request):
     return render(request, 'Primer_app/entregables.html')
 
 
+
+#-----------------------------------------------CRUD---------------------------
+
 #---------------------------------------------leerProfesores.html----------------
 def leerProfesores(request):
     profesores = Profe.objects.all()
@@ -152,3 +155,62 @@ def editarProfesor(request, profesorNombre):
         formProfe = ProfeFormulario(initial={'nombre':profesor.nombre,'apellido':profesor.apellido,'email':profesor.email,'profesion':profesor.profesion})
        
     return render(request, 'Primer_app/editarProfesor.html',{"formProfe":formProfe,"profesorNombre":profesorNombre})
+
+
+
+
+#-----------------------------------------Leer-Integrantes---------------------------------
+
+def leer_integrantes(request):
+    integrantes = Integrantes.objects.all()
+    contexto = {"integrante":integrantes}
+    return render (request, "Primer_app/leer_integrantes.html",contexto)
+
+#----------------------------eliminar-Integrantes---------------------------------
+def eliminar_integrantes(request,nombreIntegrante):
+    integrante = Integrantes.objects.get(nombre = nombreIntegrante)
+    integrante.delete()
+
+    #volver al menu
+    integrantes = Integrantes.objects.all()
+    context = {'integrantes':integrantes}
+    return render(request,'Primer_app/leer_integrantes.html',context)
+
+#---------------------------------Editar-Integrantes
+def editar_integrantes(request,nombreIntegrante):       
+    integrante = Integrantes.objects.get(nombre = nombreIntegrante)
+    #accedo al formulario de integrantes
+    if request.method == "POST":
+        form_Inte= IntegrantesFormulario(request.POST)
+        print(form_Inte)
+
+        if form_Inte.is_valid():
+            info = form_Inte.cleaned_data
+
+            integrante.nombre = info['nombre']
+            integrante.apellido = info['apellido']
+            integrante.save()
+
+        return render(request,'Primer_app/Padre.html',{"form_Inte":form_Inte})
+        
+    else:
+        form_Inte = IntegrantesFormulario(initial={'nombre':nombreIntegrante, 'apellido':integrante.apellido})
+        
+    return render(request,'Primer_app/editar_integrante.html',{"form_Inte":form_Inte,"nombreIntegrante":nombreIntegrante})
+        
+    
+
+
+
+
+    
+
+       
+    
+
+
+
+   
+  
+        
+   
