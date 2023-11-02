@@ -23,9 +23,11 @@ urlpatterns = [
     #---------------------Crud model Integrantes
     path('leer_integrantes',views.leer_integrantes, name = "LeerIntegrantes"),
     path('eliminar_integrante/<nombreIntegrante>/',views.eliminar_integrantes, name = "EliminarIntegrante"),
-    path('editar_integrante/<nombreIntegrante>/',views.editar_integrantes,name='EditarIntegrante')
+    path('editar_integrante/<nombreIntegrante>/',views.editar_integrantes,name='EditarIntegrante'),
   
     #------------------ Crud model Cursos
+
+    
 ]
 
 

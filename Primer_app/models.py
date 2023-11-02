@@ -6,6 +6,9 @@ class Curso(models.Model):
     nombre = models.CharField(max_length=40)
     comision = models.IntegerField()
 
+    def __str__(self):
+        return f'Nombre: {self.nombre} - Apellido :{self.comision}'
+
 
 class Integrantes(models.Model):
     nombre = models.CharField(max_length=30)

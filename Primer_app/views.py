@@ -199,8 +199,12 @@ def editar_integrantes(request,nombreIntegrante):
     return render(request,'Primer_app/editar_integrante.html',{"form_Inte":form_Inte,"nombreIntegrante":nombreIntegrante})
         
     
+#-----------------------------------------Curso_Read-----------------
 
-
+def cursos_read(request):
+    cursos = Curso.objects.all()
+    contexto = {"cursos":cursos}
+    return render(request,"Primer_app/curso_read.html",contexto)
 
 
     

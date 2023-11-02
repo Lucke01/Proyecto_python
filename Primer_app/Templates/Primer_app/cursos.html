@@ -12,9 +12,7 @@
 
 
     
-    {% for p in profesores %}
-
-        <li>{{p}}</li>
+   
 
     <form action="{% url 'primerApp:Cursos' %}", method ='POST'>{% csrf_token %} <!-- creo que aca esta el error xd-->
      
@@ -30,5 +28,5 @@
 
     </form>
 
-    {% endfor %}
+    
 {% endblock %}
