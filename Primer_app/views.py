@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from django.http import HttpResponse
 from Primer_app.models import Curso,Profe,Integrantes
-from Primer_app.forms import CursoFormulario,ProfeFormulario,IntegrantesFormulario
+from Primer_app.forms import CursoFormulario,ProfeFormulario,IntegrantesFormulario,UserRegisterForm
 
 
 
@@ -163,7 +163,7 @@ def editarProfesor(request, profesorNombre):
 
 def leer_integrantes(request):
     integrantes = Integrantes.objects.all()
-    contexto = {"integrante":integrantes}
+    contexto = {"integrantes":integrantes}
     return render (request, "Primer_app/leer_integrantes.html",contexto)
 
 #----------------------------eliminar-Integrantes---------------------------------
@@ -194,22 +194,64 @@ def editar_integrantes(request,nombreIntegrante):
         return render(request,'Primer_app/Padre.html',{"form_Inte":form_Inte})
         
     else:
-        form_Inte = IntegrantesFormulario(initial={'nombre':nombreIntegrante, 'apellido':integrante.apellido})
+        form_Inte = IntegrantesFormulario(initial={'nombre':integrante.nombre, 'apellido':integrante.apellido})
         
     return render(request,'Primer_app/editar_integrante.html',{"form_Inte":form_Inte,"nombreIntegrante":nombreIntegrante})
         
     
-#-----------------------------------------Curso_Read-----------------
-
-def cursos_read(request):
-    cursos = Curso.objects.all()
-    contexto = {"cursos":cursos}
-    return render(request,"Primer_app/curso_read.html",contexto)
 
 
+
+#------------------------------------------LOGIN--------------------------------------------------------------------------   
+from django.contrib.auth.forms import AuthenticationForm as AF
+from django.contrib.auth import login , logout, authenticate
+def login_request(request):
+
+    if request.method == "POST":    
+        form = AF(request, data = request.post)
+
+        #creo un if sobre el form
+        if form.is_valid():
+            usuario= form.cleaned_data.get('username')
+            contraseña = form.cleaned_data.get('password')
+            user = authenticate(username = usuario, pasword = contraseña) #autenticar si coincide el usuario
+
+            # creo un if sobre user
+            if user is not None:
+                login(request,user)
+                return render(request, 'Primer_app/inicio.html',{"mensaje":f"bienvenido {usuario}" })
+        
+            else:
+                return render(request, 'Primer_app/inicio.html', {"mensaje":"Error, DATOS INCORRECTOS"})
     
+        else:
+            return render(request, 'Primer_app/inicio.html',{"mensaje":"ERROR, FORMULARIO ERRONEO"})
 
-       
+    form = AF()
+
+    return render(request,"Primer_app/login.html", {"form":form})
+
+#---------------------------------------REGISTER---------------------------------------------
+
+
+
+def register(request):
+    
+    if request.method == "POST":
+            #form = UCF(request.POST)
+            form = UserRegisterForm(request.POST)
+
+            if form.is_valid():
+            
+                username = form.cleaned_data['username']
+                form.save()
+                return render(request, "Primer_app/inicio.html", {"mensaje":"El usuario ha sido creado"},)
+    else:
+        #form = UCF()
+        form = UserRegisterForm()
+    
+    return render(request,"Primer_app/registro.html", {"form":form})
+
     
 
 
