@@ -252,8 +252,17 @@ def register(request):
     
     return render(request,"Primer_app/registro.html", {"form":form})
 
+
+#----------------------------------------DECORADORES----------------
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def inicio(request):
+    return render(request, "Primer_app/inicio.html")
+
     
 
+#AGREGAR CRUD AL LOGIN
 
 
    
