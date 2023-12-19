@@ -7,4 +7,5 @@ admin.site.register(Curso)
 admin.site.register(Integrantes)
 admin.site.register(Profe)
 admin.site.register(Entregable)
+admin.site.register(Avatar)
 

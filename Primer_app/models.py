@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 
 class Curso(models.Model):
@@ -31,3 +31,11 @@ class Entregable (models.Model):
     nombre =models.CharField(max_length=30)
     entrega = models.DateField()
     entregado = models.BooleanField()
+
+class Avatar(models.Model):
+    #creamos el vinculo con el usuario
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    
+    #creamos una subcarpeta de avatar
+    img = models.ImageField(upload_to='avatares',null = True, blank = True)
+    

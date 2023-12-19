@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Avatar</title>
+</head>
+<body>
+
+    <h5> cargar avatar</h5>
+    <form method="post", enctype="multipart/form-data">
+
+        {% csrf_token %}
+        {{ miFormulario.as_p }}
+
+        <input type="submit" value ="actualizar">
+    </form>
+    
+</body>
+</html>

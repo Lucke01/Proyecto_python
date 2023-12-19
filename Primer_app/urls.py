@@ -34,6 +34,14 @@ urlpatterns = [
 
     #---------------------logout
     path('logout',LogoutView.as_view(template_name='Primer_app/logout.html'),name = "LogOut"),
+
+    #--------------------EdicionPerfil
+
+    path('editarPerfil',views.editarPerfil, name = "EditarPerfil"),
+
+    #------------------Agregaravatar
+
+    path('agregarAvatar',views.agregar_avatar, name ="AgregarAvatar"),
   
  
 

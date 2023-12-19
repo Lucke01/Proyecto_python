@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from django.http import HttpResponse
-from Primer_app.models import Curso,Profe,Integrantes
-from Primer_app.forms import CursoFormulario,ProfeFormulario,IntegrantesFormulario,UserRegisterForm
+from Primer_app.models import Curso,Profe,Integrantes,Avatar
+from Primer_app.forms import CursoFormulario,ProfeFormulario,IntegrantesFormulario,UserRegisterForm,UserEditForm, AvatarFormulario
 
 
 
@@ -258,12 +258,67 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def inicio(request):
-    return render(request, "Primer_app/inicio.html")
+    avatares = Avatar.objects.filter(user = request.user.id)
+
+    return render(request, 'Primer_app/inicio.html', {"url":avatares[0].img.url})
+
+
+
+
+@login_required
+def editarPerfil(request):
+    
+    #instancia del login
+    usuario = request.user
+    
+    #si el metodo es post hago lo mismo que agregar
+
+    if request.method == "post":
+        miFormulario = UserEditForm(request.post)
+        if miFormulario.is_valid():
+
+            info = miFormulario.cleaned_data
+
+            #datos a modificar
+            usuario.email = info['email']
+            usuario.password1 = info['password1']
+            usuario.password2 = info['password2']
+            usuario.save()
+
+            return render(request, "Primer_app/inicio.html")
+        
+    #en caso que no sea post:
+    else:
+        #creamos formulario con datos a modificar
+        mi_formul=UserEditForm(initial={'email':usuario.email})
+    
+    #voy al html que me permite editar
+    return render(request, "Primer_app/editarPerfil.html",{"miFormulario":miFormulario, "usuario":usuario})
 
     
 
-#AGREGAR CRUD AL LOGIN
+from django.contrib.auth.models import User
+@login_required
+def agregar_avatar(request):
+    if request.method == "POST":
+    #creando formulario
+        miFormulario = AvatarFormulario(request.POST,request.FILES)
 
+        if miFormulario.is_valid():
+
+            u = User.objects.get(username=request.user)
+
+            avatar = Avatar(user=u, img=miFormulario.cleaned_data['img'])
+
+            avatar.save()
+
+            return render(request, "Primer_app/inicio.html")
+    
+    else:
+
+        miFormulario = AvatarFormulario()
+    
+    return render(request, 'Primer_app/agregarAvatar.html',{"miFormulario":miFormulario})
 
    
   
